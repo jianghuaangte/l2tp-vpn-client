@@ -18,6 +18,7 @@ RUN apk update && apk add --no-cache \
     xl2tpd \
     ppp \
     net-tools \
+    nginx \
     curl \
     neovim \
     && rm -rf /var/cache/apk/*
