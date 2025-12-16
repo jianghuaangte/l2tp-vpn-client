@@ -30,7 +30,7 @@ RUN mkdir -p /var/run/xl2tpd /etc/xl2tpd /etc/ppp
 COPY ipsec/ipsec.conf /etc/ipsec.conf
 COPY ipsec/ipsec.secrets /etc/ipsec.secrets
 COPY xl2tpd/xl2tpd.conf /etc/xl2tpd/xl2tpd.conf
-COPY xl2tpd/options.l2tpd.client /etc/ppp/options.l2tpd.client
+COPY ppp/options.l2tpd.client /etc/ppp/options.l2tpd.client
 
 # 复制入口脚本
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
