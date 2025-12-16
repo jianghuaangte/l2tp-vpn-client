@@ -65,9 +65,6 @@ ip_routes() {
 # 主函数
 main() {
     
-    # 检查参数
-    check_parameters
-    
     # 生成配置
     generate_configs
     
