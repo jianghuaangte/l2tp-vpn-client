@@ -1,0 +1,39 @@
+FROM alpine:edge
+
+# 设置环境变量
+ENV VPN_SERVER=""
+ENV VPN_PSK=""
+ENV VPN_USERNAME=""
+ENV VPN_PASSWORD=""
+ENV VPN_NAME="myVPN"
+ENV LAN_IP=""
+ENV NET_INTERFACE=""
+ENV AUTO_RECONNECT="true"
+ENV CHECK_INTERVAL="15"
+ENV MAX_RETRIES="3"
+
+# 安装必要的软件包
+RUN apk update && apk add --no-cache \
+    strongswan \
+    xl2tpd \
+    ppp \
+    net-tools \
+    curl \
+    neovim \
+    && rm -rf /var/cache/apk/*
+
+# 创建必要的目录
+RUN mkdir -p /var/run/xl2tpd /etc/xl2tpd /etc/ppp
+
+# 复制配置文件模板
+COPY ipsec/ipsec.conf /etc/ipsec.conf
+COPY ipsec/ipsec.secrets /etc/ipsec.secrets
+COPY xl2tpd/xl2tpd.conf /etc/xl2tpd/xl2tpd.conf
+COPY xl2tpd/options.l2tpd.client /etc/ppp/options.l2tpd.client
+
+# 复制入口脚本
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# 设置入口点
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
