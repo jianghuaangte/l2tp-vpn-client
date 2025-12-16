@@ -55,6 +55,7 @@ services:
       - VPN_NAME=myvpn
       - LAN_IP=172.20.0.0/24
       - GW_LAN_IP=172.20.0.1
+      - NET_INTERFACE=eth0
 
     volumes:
        - "/lib/modules:/lib/modules:ro"
