@@ -37,14 +37,15 @@ start_services() {
     mkdir -p /var/run/xl2tpd
     touch /var/run/xl2tpd/l2tp-control
     chmod 755 /var/run/xl2tpd
-    
-    xl2tpd -D &
+    xl2tpd -p /var/run/xl2tpd.pid -c /etc/xl2tpd/xl2tpd.conf -C /var/run/xl2tpd/l2tp-control -D &
     sleep 7
 }
 
 # 建立 VPN 连接
 connect_vpn() {
     # 尝试建立 IPsec 连接
+    ipsec restart
+    sleep 7
     ipsec up L2TP-PSK
     sleep 5
     # 尝试建立 L2TP 连接
