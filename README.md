@@ -20,6 +20,7 @@
 |LAN_IP|网段|192.168.0.0/24 or 172.17.0.0/24|
 |GW_LAN_IP|网关|192.168.0.1 or 172.17.0.1|
 |NET_INTERFACE|网络接口|eth0 or ens33|
+|NGINX_ENABLE|Nginx开关|1/0|
 
 ---
 ### Docker
@@ -58,6 +59,7 @@ services:
       - LAN_IP=172.20.0.0/24
       - GW_LAN_IP=172.20.0.1
       - NET_INTERFACE=eth0
+      - NGINX_ENABLE=0     # 设为1启用 Nginx
 
     volumes:
        - "/lib/modules:/lib/modules:ro"
