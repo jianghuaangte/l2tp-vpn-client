@@ -34,14 +34,14 @@ COPY xl2tpd/xl2tpd.conf /etc/xl2tpd/xl2tpd.conf
 COPY ppp/options.l2tpd.client /etc/ppp/options.l2tpd.client
 # 复制脚本
 COPY scripts/check-ipsec.sh /usr/local/bin/check-ipsec.sh
-COPY scripts/check-ppp.sh /usr/local/bin/check-ppp.sh
+COPY scripts/check-connect.sh /usr/local/bin/check-connect.sh
 
 # 复制入口脚本
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x \
     /usr/local/bin/entrypoint.sh \
     /usr/local/bin/check-ipsec.sh \
-    /usr/local/bin/check-ppp.sh
+    /usr/local/bin/check-connect.sh
 
 # 设置入口点
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
