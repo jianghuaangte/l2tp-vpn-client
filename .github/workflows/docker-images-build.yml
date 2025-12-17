@@ -2,6 +2,10 @@ name: build-images
 
 on:
   push:
+    paths-ignore:
+      - 'README.md'
+      - '**/README.md'
+      - '.github/workflows/**'
   workflow_dispatch:
 
 jobs:
