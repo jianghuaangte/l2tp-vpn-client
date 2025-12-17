@@ -4,8 +4,10 @@
 - 基于 Alpine:edge
 - 内置 Nginx
 - 断开自连
+- X86/ARM64
 
-
+### 注意
+为了保证连接的稳定性，容器启动后连接时可能需要20-120s，超过可以使用docker logs 容器ID 排查
 
 ### 参数
 |变量|说明|参考|
@@ -59,6 +61,7 @@ services:
 
     volumes:
        - "/lib/modules:/lib/modules:ro"
+ #      - "./nginx/conf.d:/etc/nginx/conf.d"
     networks:
       vpn-network:
         ipv4_address: 172.20.0.10
