@@ -44,7 +44,7 @@ connect_vpn() {
     # 尝试建立 IPsec 连接
     source check-ipsec.sh
     # 建立连接
-    echo "c ${VPN_NAME}" > /var/run/xl2tpd/l2tp-control
+    echo "c ${VPN_NAME}" > /var/run/xl2tpd/l2tp-control &
     source check-ppp.sh
 }
 
