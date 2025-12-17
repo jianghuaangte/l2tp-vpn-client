@@ -1,5 +1,8 @@
 # l2tp-vpn-client
 
+### 文档
+- [Wiki](https://github.com/jianghuaangte/l2tp-vpn-client/wiki)
+
 ### 特点
 - 基于 Alpine:edge
 - 内置 Nginx
