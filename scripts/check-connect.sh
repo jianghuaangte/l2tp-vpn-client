@@ -8,6 +8,7 @@ wait_ppp0() {
   while true; do
     if ip link show ppp0 2>/dev/null | grep -q "UP"; then
       echo "✅ ppp0 is UP"
+      echo "✅ L2TP Connection successful！"
       return 0
     fi
 
