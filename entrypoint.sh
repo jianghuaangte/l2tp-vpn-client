@@ -14,8 +14,6 @@ NET_INTERFACE="${NET_INTERFACE:-$8}"
 
 # 生成配置文件
 generate_configs() {
-    echo "📝 生成配置文件..."
-    
     # 生成 ipsec.conf
     sed -i "s/__VPN_SERVER__/${VPN_SERVER}/g" /etc/ipsec.conf
     # 生成 ipsec.secrets
@@ -38,7 +36,7 @@ start_services() {
     touch /var/run/xl2tpd/l2tp-control
     chmod 755 /var/run/xl2tpd
     xl2tpd -p /var/run/xl2tpd.pid -c /etc/xl2tpd/xl2tpd.conf -C /var/run/xl2tpd/l2tp-control -D &
-    sleep 7
+    sleep 3
 }
 
 # 建立 VPN 连接
