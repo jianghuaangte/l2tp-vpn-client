@@ -10,6 +10,7 @@ VPN_NAME="${VPN_NAME:-${5:-myVPN}}"
 LAN_IP="${LAN_IP:-$6}"
 GW_LAN_IP="${GW_LAN_IP:-$7}"
 NET_INTERFACE="${NET_INTERFACE:-$8}"
+NGINX_ENABLE="${NGINX_ENABLE:-0}"
 
 
 # 生成配置文件
@@ -56,6 +57,13 @@ ip_routes() {
     ip route del default via $GW_LAN_IP dev $NET_INTERFACE
 }
 
+# Nginx
+start_nginx_if_enabled() {
+  if [ "$NGINX_ENABLE" = "1" ]; then
+    nginx
+  fi
+}
+
 
 # 主函数
 main() {
@@ -71,7 +79,9 @@ main() {
 
     # 路由
     ip_routes
-    
+
+    # Nginx
+    start_nginx_if_enabled
     # 保持容器运行
     tail -f /dev/null
 }
