@@ -26,6 +26,6 @@ wait_ipsec_forever() {
 }
 
 # 启动检查
-ipsec update
+ipsec start
 sleep 1
 wait_ipsec_forever
