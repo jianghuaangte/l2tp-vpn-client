@@ -32,6 +32,9 @@ COPY ipsec/ipsec.conf /etc/ipsec.conf
 COPY ipsec/ipsec.secrets /etc/ipsec.secrets
 COPY xl2tpd/xl2tpd.conf /etc/xl2tpd/xl2tpd.conf
 COPY ppp/options.l2tpd.client /etc/ppp/options.l2tpd.client
+# 复制脚本
+COPY scripts/check-ipsec.sh /usr/local/bin/check-ipsec.sh
+COPY scripts/check-ppp.sh /usr/local/bin/check-ppp.sh
 
 # 复制入口脚本
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
