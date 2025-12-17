@@ -38,7 +38,10 @@ COPY scripts/check-ppp.sh /usr/local/bin/check-ppp.sh
 
 # 复制入口脚本
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+RUN chmod +x \
+    /usr/local/bin/entrypoint.sh \
+    /usr/local/bin/check-ipsec.sh \
+    /usr/local/bin/check-ppp.sh
 
 # 设置入口点
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
