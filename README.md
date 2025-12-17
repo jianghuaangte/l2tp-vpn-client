@@ -69,3 +69,35 @@ services:
         ipv4_address: 172.20.0.10
     restart: unless-stopped
 ```
+
+**CLi**
+1. 创建网关、子网
+```shell
+docker network create \
+  --driver bridge \
+  --subnet 172.20.0.0/24 \
+  --gateway 172.20.0.1 \
+  vpn-network
+```
+2. 运行
+```shell
+docker run -d \
+  --name l2tp-vpn-client \
+  --privileged \
+  --cap-add NET_ADMIN \
+  --device /dev/ppp:/dev/ppp \
+  --network vpn-network \
+  --ip 172.20.0.10 \
+  --restart unless-stopped \
+  -e VPN_SERVER=<your server> \
+  -e VPN_PSK=<your psk> \
+  -e VPN_USERNAME=<your vpn username> \
+  -e VPN_PASSWORD=<your vpn passwd> \
+  -e VPN_NAME=myvpn \
+  -e LAN_IP=172.20.0.0/24 \
+  -e GW_LAN_IP=172.20.0.1 \
+  -e NET_INTERFACE=eth0 \
+  -e NGINX_ENABLE=0 \
+  -v /lib/modules:/lib/modules:ro \
+  freedomzzz/l2tp-vpn-client:latest
+```
