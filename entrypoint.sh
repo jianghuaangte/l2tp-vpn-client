@@ -43,10 +43,9 @@ start_services() {
 connect_vpn() {
     # 尝试建立 IPsec 连接
     source check-ipsec.sh
-    source check-ppp.sh
-    # 尝试建立 L2TP 连接
+    # 建立连接
     echo "c ${VPN_NAME}" > /var/run/xl2tpd/l2tp-control
-    sleep 2
+    source check-ppp.sh
 }
 
 # 路由表
