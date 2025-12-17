@@ -44,17 +44,14 @@ start_services() {
 # 建立 VPN 连接
 connect_vpn() {
     # 尝试建立 IPsec 连接
-    ipsec restart
-    sleep 7
-    ipsec up L2TP-PSK
-    sleep 5
+    source check-ipsec.sh
+    source check-ppp.sh
     # 尝试建立 L2TP 连接
     echo "c ${VPN_NAME}" > /var/run/xl2tpd/l2tp-control
-    sleep 5
+    sleep 2
 }
 
 # 路由表
-
 ip_routes() {
     ip route add $VPN_SERVER via $GW_LAN_IP dev $NET_INTERFACE metric 100
     ip route add $LAN_IP via $GW_LAN_IP dev eth0 metric 70
