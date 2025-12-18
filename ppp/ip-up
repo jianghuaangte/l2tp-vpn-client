@@ -1,5 +1,13 @@
 #!/bin/sh
 # This script is run by pppd when there's a successful ppp connection.
+# 重命名参数为有意义的变量名
+INTERFACE="$1"	          # 对应 interface-name
+# PPP_TTY="$2"            # 对应 tty-device
+# PPP_SPEED="$3"          # 对应 speed
+# PPP_LOCAL_IP="$4"       # 对应 local-IP-address
+REMOTE_IP="$5"      # 对应 remote-IP-address
+IPPARAM="$6"        	  # 对应 ipparam
+
 # 解析变量
 ADD_VPN_SERVE=$(echo "$IPPARAM" | awk -F: '{print $1}')
 ADD_GW_LAN_IP=$(echo "$IPPARAM" | awk -F: '{print $2}')
