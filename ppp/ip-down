@@ -1,6 +1,7 @@
 #!/bin/sh
 #
 # This script is run by pppd after the connection has ended.
+# 这里的断开不是指 echo "d myvpn ..." 这样的手动断开，而是意外中断连接
 # 重命名参数为有意义的变量名
 INTERFACE="$1"	          # 对应 interface-name
 # PPP_TTY="$2"            # 对应 tty-device
