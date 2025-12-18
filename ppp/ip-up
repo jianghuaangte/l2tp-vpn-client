@@ -1,0 +1,11 @@
+#!/bin/sh
+# This script is run by pppd when there's a successful ppp connection.
+# 解析变量
+VPN_SERVE=$(echo "$IPPARAM" | awk -F: '{print $1}')
+GW_LAN_IP=$(echo "$IPPARAM" | awk -F: '{print $2}')
+NET_INTERFACE=$(echo "$IPPARAM" | awk -F: '{print $3}')
+
+# 添加路由让流量全局走 VPN
+ip route add $VPN_SERVE via $GW_LAN_IP dev $NET_INTERFACE
+ip route add 128.0.0.0/1 via $REMOTE_IP dev $INTERFACE
+ip route add 0.0.0.0/1 via $REMOTE_IP dev $INTERFACE
