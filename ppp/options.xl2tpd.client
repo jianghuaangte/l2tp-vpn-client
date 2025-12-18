@@ -9,6 +9,7 @@ mtu 1410
 mru 1410
 defaultroute
 usepeerdns
+IPPARAM __VPN_SERVER__:__NET_INTERFACE__
 debug
 connect-delay 5000
 name __VPN_USERNAME__
