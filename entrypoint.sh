@@ -23,11 +23,11 @@ generate_configs() {
     sed -i "s/__VPN_NAME__/${VPN_NAME}/g" /etc/xl2tpd/xl2tpd.conf
     sed -i "s/__VPN_SERVER__/${VPN_SERVER}/g" /etc/xl2tpd/xl2tpd.conf
     # 生成 options.l2tpd.client
-    sed -i "s/__VPN_USERNAME__/${VPN_USERNAME}/g" /etc/ppp/options.l2tpd.client
-    sed -i "s/__VPN_PASSWORD__/${VPN_PASSWORD}/g" /etc/ppp/options.l2tpd.client
-    sed -i "s/__VPN_SERVER__/${VPN_SERVER}/g" /etc/ppp/options.l2tpd.client
-    sed -i "s/__GW_LAN_IP__/${GW_LAN_IP}/g" /etc/ppp/options.l2tpd.client
-    sed -i "s/__NET_INTERFACE__/${NET_INTERFACE}/g" /etc/ppp/options.l2tpd.client
+    sed -i "s/__VPN_USERNAME__/${VPN_USERNAME}/g" /etc/ppp/options.xl2tpd.client
+    sed -i "s/__VPN_PASSWORD__/${VPN_PASSWORD}/g" /etc/ppp/options.xl2tpd.client
+    sed -i "s/__VPN_SERVER__/${VPN_SERVER}/g" /etc/ppp/options.xl2tpd.client
+    sed -i "s/__GW_LAN_IP__/${GW_LAN_IP}/g" /etc/ppp/options.xl2tpd.client
+    sed -i "s/__NET_INTERFACE__/${NET_INTERFACE}/g" /etc/ppp/options.xl2tpd.client
     
     chmod 600 /etc/ppp/options.l2tpd.client
     
