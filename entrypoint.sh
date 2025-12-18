@@ -49,14 +49,6 @@ connect_vpn() {
     source check-connect.sh
 }
 
-# 路由表
-ip_routes() {
-    ip route add $VPN_SERVER via $GW_LAN_IP dev $NET_INTERFACE metric 100
-    ip route add $LAN_IP via $GW_LAN_IP dev eth0 metric 70
-    ip route add default dev ppp0 metric 50
-    ip route del default via $GW_LAN_IP dev $NET_INTERFACE
-}
-
 # Nginx
 start_nginx_if_enabled() {
   if [ "$NGINX_ENABLE" = "1" ]; then
@@ -76,9 +68,6 @@ main() {
     
     # 建立连接
     connect_vpn
-
-    # 路由
-    ip_routes
 
     # Nginx
     start_nginx_if_enabled
