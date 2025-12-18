@@ -1,7 +1,7 @@
 name: build-images
 
 on:
-  push:
+  1push:
     paths-ignore:
       - 'README.md'
       - '**/README.md'
