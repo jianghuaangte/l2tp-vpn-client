@@ -36,12 +36,18 @@ COPY ppp/options.xl2tpd.client /etc/ppp/options.xl2tpd.client
 COPY scripts/check-ipsec.sh /usr/local/bin/check-ipsec.sh
 COPY scripts/check-connect.sh /usr/local/bin/check-connect.sh
 
+# 复制路由脚本
+COPY ppp/ip-up /etc/ppp/ip-up
+COPY ppp/ip-down /etc/ppp/ip-down
+
 # 复制入口脚本
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x \
     /usr/local/bin/entrypoint.sh \
     /usr/local/bin/check-ipsec.sh \
-    /usr/local/bin/check-connect.sh
+    /usr/local/bin/check-connect.sh\
+    /etc/ppp/ip-up \
+    /etc/ppp/ip-down
 
 # 设置入口点
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
