@@ -31,7 +31,7 @@ RUN mkdir -p /var/run/xl2tpd /etc/xl2tpd /etc/ppp
 COPY ipsec/ipsec.conf /etc/ipsec.conf
 COPY ipsec/ipsec.secrets /etc/ipsec.secrets
 COPY xl2tpd/xl2tpd.conf /etc/xl2tpd/xl2tpd.conf
-COPY ppp/options.l2tpd.client /etc/ppp/options.l2tpd.client
+COPY ppp/options.xl2tpd.client /etc/ppp/options.xl2tpd.client
 # 复制脚本
 COPY scripts/check-ipsec.sh /usr/local/bin/check-ipsec.sh
 COPY scripts/check-connect.sh /usr/local/bin/check-connect.sh
