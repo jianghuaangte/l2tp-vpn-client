@@ -20,6 +20,7 @@ RUN apk update && apk add --no-cache \
     ppp \
     net-tools \
     nginx \
+    nginx-mod-stream \
     curl \
     neovim \
     && rm -rf /var/cache/apk/*
