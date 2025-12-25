@@ -11,6 +11,7 @@ LAN_IP="${LAN_IP:-$6}"
 GW_LAN_IP="${GW_LAN_IP:-$7}"
 NET_INTERFACE="${NET_INTERFACE:-$8}"
 NGINX_ENABLE="${NGINX_ENABLE:-0}"
+SOCAT_ENABLE="${SOCAT_ENABLE:-0}"
 
 
 # 生成配置文件
@@ -59,6 +60,13 @@ start_nginx_if_enabled() {
   fi
 }
 
+# Socat
+start_nginx_if_enabled() {
+  if [ "$SOCAT_ENABLE" = "1" ]; then
+    chmod +x /usr/local/bin/socat-cmd.sh
+    source /usr/local/bin/socat-cmd.sh
+  fi
+}
 
 # 主函数
 main() {
