@@ -5,7 +5,7 @@
 
 ### 特点
 - 基于 Alpine:edge
-- 内置 Nginx
+- 内置 Nginx、Socat
 - 断开自连
 - X86/ARM64
 
@@ -21,8 +21,8 @@
 |VPN_USERNAME|用户名|xiaomin||
 |VPN_PASSWORD|密码|123456||
 |VPN_NAME|VPN名称|myvpn||
-|LAN_IP|网段|192.168.0.0/24 or 172.17.0.0/24|ifconfig 或 由 docker 中指定子网|
-|GW_LAN_IP|网关|192.168.0.1 or 172.17.0.1|ifconfig 或 由 docker 中指定子网|
+|LAN_IP|网段|192.168.0.0/24(host) or 172.17.0.0/24|ifconfig 或 由 docker 中指定子网|
+|GW_LAN_IP|网关|192.168.0.1(host) or 172.17.0.1|ifconfig 或 由 docker 中指定子网|
 |NET_INTERFACE|网络接口|eth0 or ens33||
 |NGINX_ENABLE|Nginx开关|1/0||
 |SOCAT_ENABLE|Socat开关|1/0||
