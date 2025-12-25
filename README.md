@@ -25,6 +25,13 @@
 |GW_LAN_IP|网关|192.168.0.1 or 172.17.0.1|ifconfig 或 由 docker 中指定子网|
 |NET_INTERFACE|网络接口|eth0 or ens33||
 |NGINX_ENABLE|Nginx开关|1/0||
+|SOCAT_ENABLE|Socat开关|1/0||
+
+### Socat
+socat-cmd.sh 内容格式：
+```shell
+socat TCP-LISTEN:20170,fork,reuseaddr TCP:172.21.0.30:20170 &
+```
 
 ---
 ### Docker
@@ -64,9 +71,10 @@ services:
       - GW_LAN_IP=172.20.0.1
       - NET_INTERFACE=eth0
       - NGINX_ENABLE=0     # 设为1启用 Nginx
-
+      - SOCAT_ENABLE=0     # 设为1启用 Socat
     volumes:
        - "/lib/modules:/lib/modules:ro"
+       - "/path/to/socat-cmd.sh:/usr/local/bin/socat-cmd.sh"
  #      - "./nginx/conf.d:/etc/nginx/conf.d"
     networks:
       vpn-network:
@@ -102,6 +110,7 @@ docker run -d \
   -e GW_LAN_IP=172.20.0.1 \
   -e NET_INTERFACE=eth0 \
   -e NGINX_ENABLE=0 \
+  -e SOCAT_ENABLE=0 \
   -v /lib/modules:/lib/modules:ro \
   freedomzzz/l2tp-vpn-client:latest
 ```
