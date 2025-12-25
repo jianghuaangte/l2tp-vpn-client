@@ -61,7 +61,7 @@ start_nginx_if_enabled() {
 }
 
 # Socat
-start_nginx_if_enabled() {
+start_socat_if_enabled() {
   if [ "$SOCAT_ENABLE" = "1" ]; then
     chmod +x /usr/local/bin/socat-cmd.sh
     source /usr/local/bin/socat-cmd.sh
@@ -82,6 +82,9 @@ main() {
 
     # Nginx
     start_nginx_if_enabled
+    # Socat
+    start_socat_if_enabled
+    
     # 保持容器运行
     tail -f /dev/null
 }
