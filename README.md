@@ -21,9 +21,9 @@
 |VPN_USERNAME|用户名|xiaomin||
 |VPN_PASSWORD|密码|123456||
 |VPN_NAME|VPN名称|myvpn||
-|LAN_IP|网段|192.168.0.0/24(host) or 172.17.0.0/24|ifconfig 或 由 docker 中指定子网|
-|GW_LAN_IP|网关|192.168.0.1(host) or 172.17.0.1|ifconfig 或 由 docker 中指定子网|
-|NET_INTERFACE|网络接口|eth0 or ens33||
+|LAN_IP|网段|192.168.0.0/24(host模式) or 172.20.0.0/24(bridge模式)|ifconfig 或 由 docker 中指定子网|
+|GW_LAN_IP|网关|192.168.0.1(host模式) or 172.20.0.1(bridge模式)|ifconfig 或 由 docker 中指定子网|
+|NET_INTERFACE|网络接口|eth0 or ens33（一般指宿主机的网络接口）||
 |NGINX_ENABLE|Nginx开关|1/0||
 |SOCAT_ENABLE|Socat开关|1/0||
 
@@ -55,8 +55,8 @@ services:
     privileged: true
     cap_add:
       - NET_ADMIN
-    devices:
-      - "/dev/ppp:/dev/ppp"
+#    devices:
+#      - "/dev/ppp:/dev/ppp"
 #    ports:
 #      - "1701:1701/udp"
 #      - "4500:4500/udp"
@@ -97,7 +97,6 @@ docker run -d \
   --name l2tp-vpn-client \
   --privileged \
   --cap-add NET_ADMIN \
-  --device /dev/ppp:/dev/ppp \
   --network vpn-network \
   --ip 172.20.0.10 \
   --restart unless-stopped \
