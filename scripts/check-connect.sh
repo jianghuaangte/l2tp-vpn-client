@@ -24,7 +24,7 @@ wait_ppp0() {
         pkill xl2tpd 2>/dev/null
       fi
 
-      sleep 2
+      sleep 3
 
       # 2️⃣ restart xl2tpd
       rm -f /var/run/xl2tpd.pid /var/run/xl2tpd/l2tp-control
@@ -37,7 +37,7 @@ wait_ppp0() {
         -C /var/run/xl2tpd/l2tp-control \
         -D &
 
-      sleep 1
+      sleep 2
 
       # 3️⃣ reconnect
       echo "c ${VPN_NAME}" > /var/run/xl2tpd/l2tp-control
@@ -45,7 +45,7 @@ wait_ppp0() {
       retry=0
     fi
 
-    sleep 1
+    sleep 2
   done
 }
 
