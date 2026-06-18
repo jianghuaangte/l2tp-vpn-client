@@ -4,7 +4,8 @@ refuse-eap
 require-mschap-v2
 noccp
 noauth
-idle 1800
+lcp-echo-interval 20
+lcp-echo-failure 3
 mtu 1410
 mru 1410
 defaultroute

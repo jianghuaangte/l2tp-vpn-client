@@ -12,6 +12,9 @@ GW_LAN_IP="${GW_LAN_IP:-$7}"
 NET_INTERFACE="${NET_INTERFACE:-$8}"
 NGINX_ENABLE="${NGINX_ENABLE:-0}"
 SOCAT_ENABLE="${SOCAT_ENABLE:-0}"
+AUTO_RECONNECT="${AUTO_RECONNECT:-true}"
+CHECK_INTERVAL="${CHECK_INTERVAL:-15}"
+MAX_RETRIES="${MAX_RETRIES:-3}"
 
 
 # 生成配置文件
@@ -68,6 +71,76 @@ start_socat_if_enabled() {
   fi
 }
 
+# 重启 xl2tpd 并重新拨号
+restart_xl2tpd() {
+  if [ -f /var/run/xl2tpd.pid ]; then
+    kill "$(cat /var/run/xl2tpd.pid)" 2>/dev/null || true
+  else
+    pkill xl2tpd 2>/dev/null || true
+  fi
+  sleep 2
+  rm -f /var/run/xl2tpd.pid /var/run/xl2tpd/l2tp-control
+  mkdir -p /var/run/xl2tpd
+  touch /var/run/xl2tpd/l2tp-control
+  xl2tpd -p /var/run/xl2tpd.pid -c /etc/xl2tpd/xl2tpd.conf -C /var/run/xl2tpd/l2tp-control -D &
+  sleep 2
+  echo "c ${VPN_NAME}" > /var/run/xl2tpd/l2tp-control
+}
+
+# 持续监控 ppp0，掉线则自动重连（看门狗）
+monitor_connection() {
+  if [ "$AUTO_RECONNECT" != "true" ]; then
+    tail -f /dev/null
+    return
+  fi
+
+  echo "🐶connection watchdog started (interval=${CHECK_INTERVAL}s, max_retries=${MAX_RETRIES})"
+
+  while true; do
+    sleep "$CHECK_INTERVAL"
+
+    # 链路正常则继续
+    if ip link show ppp0 2>/dev/null | grep -q "UP"; then
+      continue
+    fi
+
+    echo "⚠️ppp0 is down, attempting to recover..."
+
+    # 先确保 IPsec 第一阶段健康
+    if ! ipsec status L2TP-PSK | grep -q "INSTALLED"; then
+      echo "🔁IPsec SA missing, restarting IPsec..."
+      ipsec restart || true
+      sleep 3
+      ipsec up L2TP-PSK || true
+    fi
+
+    retry=0
+    while [ "$retry" -lt "$MAX_RETRIES" ]; do
+      retry=$((retry + 1))
+      echo "🔁reconnect attempt ${retry}/${MAX_RETRIES}..."
+      restart_xl2tpd
+
+      waited=0
+      while [ "$waited" -lt 15 ]; do
+        if ip link show ppp0 2>/dev/null | grep -q "UP"; then
+          break
+        fi
+        sleep 1
+        waited=$((waited + 1))
+      done
+
+      if ip link show ppp0 2>/dev/null | grep -q "UP"; then
+        echo "✅ppp0 recovered"
+        break
+      fi
+    done
+
+    if ! ip link show ppp0 2>/dev/null | grep -q "UP"; then
+      echo "💥failed to recover ppp0 after ${MAX_RETRIES} attempts, will retry next cycle"
+    fi
+  done
+}
+
 # 主函数
 main() {
     
@@ -85,8 +158,8 @@ main() {
     # Socat
     start_socat_if_enabled
     
-    # 保持容器运行
-    tail -f /dev/null
+    # 连接看门狗：持续监控 ppp0，掉线自动重连
+    monitor_connection
 }
 
 # 运行主函数

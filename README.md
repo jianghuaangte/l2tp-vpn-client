@@ -26,6 +26,11 @@
 |NET_INTERFACE|网络接口|eth0 or ens33（一般指宿主机的网络接口）||
 |NGINX_ENABLE|Nginx开关|1/0||
 |SOCAT_ENABLE|Socat开关|1/0||
+|AUTO_RECONNECT|断线自动重连看门狗开关|true/false（默认 true）||
+|CHECK_INTERVAL|看门狗检测 ppp0 的间隔（秒）|15（默认）||
+|MAX_RETRIES|单次掉线后的最大重连尝试次数|3（默认）||
+
+> 说明：连接建立后，容器内置看门狗会每隔 `CHECK_INTERVAL` 秒检测一次 ppp0；若掉线会自动重启 IPsec/xl2tpd 并重新拨号（最多 `MAX_RETRIES` 次/轮，失败则下一轮继续）。配合 PPP LCP 心跳与 IPsec DPD，可显著降低超时和掉线后无法自愈的问题。设 `AUTO_RECONNECT=false` 可关闭看门狗。
 
 ### Socat
 socat-cmd.sh 内容格式：

@@ -14,6 +14,6 @@ ADD_GW_LAN_IP=$(echo "$IPPARAM" | awk -F: '{print $2}')
 ADD_NET_INTERFACE=$(echo "$IPPARAM" | awk -F: '{print $3}')
 
 # 添加路由让流量全局走 VPN
-ip route add $ADD_VPN_SERVE via $ADD_GW_LAN_IP dev $ADD_NET_INTERFACE
-ip route add 128.0.0.0/1 via $REMOTE_IP dev $INTERFACE
-ip route add 0.0.0.0/1 via $REMOTE_IP dev $INTERFACE
+ip route replace $ADD_VPN_SERVE via $ADD_GW_LAN_IP dev $ADD_NET_INTERFACE
+ip route replace 128.0.0.0/1 via $REMOTE_IP dev $INTERFACE
+ip route replace 0.0.0.0/1 via $REMOTE_IP dev $INTERFACE
